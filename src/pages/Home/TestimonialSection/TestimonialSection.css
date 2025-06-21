@@ -1,0 +1,16 @@
+.carousel .slide {
+  opacity: 0.4;
+  transform: scale(0.95);
+  transition: all 0.4s ease;
+  /* z-index: 50; */
+}
+
+.carousel .slide.selected {
+  opacity: 1;
+  transform: scale(1) translateY(-35px);
+  /* z-index: -50; */
+  position: relative;
+}
+/* .carousel .slider-wrapper {
+  overflow: visible;
+} */
