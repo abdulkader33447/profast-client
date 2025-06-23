@@ -1,5 +1,9 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import useAuth from "../../../hooks/useAuth";
+import { Link } from "react-router";
+import SocialLogin from "../SocialLogin/SocialLogin";
+import Swal from "sweetalert2";
 
 const Register = () => {
   const {
@@ -8,8 +12,24 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
+  const { createUser } = useAuth();
+
   const onSubmit = (data) => {
     console.log(data);
+    createUser(data.email, data.password)
+      .then((userCredential) => {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Signed Up successfully!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        console.log(userCredential.user);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
   return (
     <div className="card  w-full max-w-sm shrink-0 ">
@@ -24,7 +44,7 @@ const Register = () => {
             <input
               type="email"
               {...register("email", { required: true })}
-              className="input"
+              className="input w-full"
               placeholder="Email"
             />
             {errors.email?.type === "required" && (
@@ -38,9 +58,8 @@ const Register = () => {
               {...register("password", {
                 required: true,
                 minLength: 6,
-               
               })}
-              className="input"
+              className="input w-full"
               placeholder="Password"
             />
             {errors.password?.type === "required" && (
@@ -52,13 +71,24 @@ const Register = () => {
                 password must be 6 characters or longer
               </p>
             )}
-            
+
             <div>
               <a className="link link-hover">Forgot password?</a>
             </div>
-            <button className="btn btn-neutral mt-4">register</button>
+            <button className="btn bg-[#CAEB66] rounded-lg mt-4">
+              register
+            </button>
           </fieldset>
         </form>
+        <p>
+          <small>
+            Already have an account?{" "}
+            <Link to="/login" className="text-blue-500 btn btn-link">
+              Log In
+            </Link>
+          </small>
+        </p>
+        <SocialLogin />
       </div>
     </div>
   );
