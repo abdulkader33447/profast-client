@@ -1,8 +1,10 @@
 import React from "react";
-import { NavLink } from "react-router";
+import { Link, NavLink } from "react-router";
 import ProFastLogo from "../ProFastLogo/ProFastLogo";
+import useAuth from "../../../../../hooks/useAuth";
 
 const Navbar = () => {
+  const { user } = useAuth();
   const navItems = (
     <>
       <li>
@@ -11,6 +13,16 @@ const Navbar = () => {
       <li>
         <NavLink to="/coverage">Coverage</NavLink>
       </li>
+      <li>
+        <NavLink to="/sendParcel">Send Parcel</NavLink>
+      </li>
+      {user && (
+        <>
+          <li>
+            <NavLink to="/dashboard">Dashboard</NavLink>
+          </li>
+        </> 
+      )}
       <li>
         <NavLink to="/about">About Us</NavLink>
       </li>
@@ -51,7 +63,9 @@ const Navbar = () => {
         <ul className="menu menu-horizontal px-1">{navItems}</ul>
       </div>
       <div className="navbar-end">
-        <a className="btn">Button</a>
+        <Link className="btn bg-[#CAEB66] rounded-lg" to="/login">
+          Login
+        </Link>
       </div>
     </div>
   );
