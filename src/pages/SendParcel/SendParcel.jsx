@@ -6,6 +6,7 @@ import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const generateTrackingId = () => {
+  
   const randomPart = Math.random().toString(36).substr(2, 5).toUpperCase();
   const datePart = Date.now().toString().slice(-5);
   return `TRK-${randomPart}${datePart}`;
@@ -133,12 +134,12 @@ const SendParcel = () => {
       buttonsStyling: false,
     }).then((result) => {
       if (result.isConfirmed) {
-        handleConfirm(data);
+        handleConfirm(data, cost);
       }
     });
   };
 
-  const handleConfirm = (data) => {
+  const handleConfirm = (data, cost) => {
     const parcels = {
       ...data,
       trackingId: generateTrackingId(),
@@ -146,14 +147,13 @@ const SendParcel = () => {
       created_by: user?.email || "anonymous",
       delivery_status: "not collected!",
       payment_status: "unpaid",
+      cost: cost,
     };
 
     // console.log("Saving parcel to DB:", parcels)
     //saving parcel to db
     axiosSecure.post("/parcels", parcels).then((res) => {
       if (res.data.insertedId) {
-
-
         //TODO: redirect to the payment page
 
         Swal.fire("Success!", "Parcel info saved successfully!", "success");

@@ -1,9 +1,13 @@
 import React from "react";
 import useAuth from "../../../hooks/useAuth";
 import Swal from "sweetalert2";
+import { useLocation, useNavigate } from "react-router";
 
 const SocialLogin = () => {
   const { signinWithGoogle } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const from = location.state?.from || "/";
 
   const handleGoogleSignIn = () => {
     signinWithGoogle()
@@ -15,6 +19,7 @@ const SocialLogin = () => {
           showConfirmButton: false,
           timer: 1500,
         });
+        navigate(from);
         console.log(result.user);
       })
       .catch((error) => {

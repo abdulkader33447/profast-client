@@ -1,26 +1,45 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import SocialLogin from "../SocialLogin/SocialLogin";
+import useAuth from "../../../hooks/useAuth";
+import Swal from "sweetalert2";
 
 const Login = () => {
+  const { signIn } = useAuth();
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm();
 
+  const location = useLocation();
+  const navigate = useNavigate();
+  // console.log(location);
+  const from = location.state?.from || "/";
+
   const onSubmit = (data) => {
-    console.log(data);
+    signIn(data.email, data.password)
+      .then((result) => {
+        console.log(result.user);
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Signed Up successfully!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        navigate(from);
+      })
+      .catch((error) => console.log(error));
   };
   return (
     <div className="card  w-full max-w-sm shrink-0 ">
       <div className="card-body">
-         <h1 className="sm:text-5xl text-2xl font-bold">Log In Now!</h1>
+        <h1 className="sm:text-5xl text-2xl font-bold">Log In Now!</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
           {" "}
           <fieldset className="fieldset ">
-           
             <label className="label">Email</label>
             <input
               type="email"
@@ -55,11 +74,11 @@ const Login = () => {
           <small>
             Don't have an account?{" "}
             <Link to="/register" className="text-blue-500 btn btn-link">
-              Log In
+              Sign Up
             </Link>
           </small>
         </p>
-        <SocialLogin/>
+        <SocialLogin />
       </div>
     </div>
   );

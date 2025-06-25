@@ -2,9 +2,12 @@ import React from "react";
 import { Link, NavLink } from "react-router";
 import ProFastLogo from "../ProFastLogo/ProFastLogo";
 import useAuth from "../../../../../hooks/useAuth";
+import { auth } from "../../../../../firebase/firebase.init";
+import Swal from "sweetalert2";
 
 const Navbar = () => {
-  const { user } = useAuth();
+  const { user,logOut } = useAuth();
+  
   const navItems = (
     <>
       <li>
@@ -21,13 +24,27 @@ const Navbar = () => {
           <li>
             <NavLink to="/dashboard">Dashboard</NavLink>
           </li>
-        </> 
+        </>
       )}
       <li>
         <NavLink to="/about">About Us</NavLink>
       </li>
     </>
   );
+
+  const handleLogOut = ()=>{
+    logOut(auth)
+    .then(()=>{
+      Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "sign out user",
+          showConfirmButton: false,
+          timer: 2500,
+        });
+    })
+    .catch((error)=>{console.error(error);})
+  }
   return (
     <div className="navbar sm:max-w-7xl w-11/12 mx-auto bg-base-100 shadow-sm rounded-2xl sm:py-5 sm:px-8">
       <div className="navbar-start">
@@ -63,9 +80,15 @@ const Navbar = () => {
         <ul className="menu menu-horizontal px-1">{navItems}</ul>
       </div>
       <div className="navbar-end">
-        <Link className="btn bg-[#CAEB66] rounded-lg" to="/login">
-          Login
-        </Link>
+        {!user ? (
+          <Link className="btn bg-[#CAEB66] rounded-lg" to="/login">
+            Login
+          </Link>
+        ) : (
+          <button className="btn bg-[#CAEB66] rounded-lg" onClick={handleLogOut}>
+            Log Out
+          </button>
+        )}
       </div>
     </div>
   );

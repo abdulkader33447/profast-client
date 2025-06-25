@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../../../hooks/useAuth";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import SocialLogin from "../SocialLogin/SocialLogin";
 import Swal from "sweetalert2";
 
@@ -13,6 +13,7 @@ const Register = () => {
   } = useForm();
 
   const { createUser } = useAuth();
+  const navigate = useNavigate();
 
   const onSubmit = (data) => {
     console.log(data);
@@ -25,6 +26,7 @@ const Register = () => {
           showConfirmButton: false,
           timer: 1500,
         });
+        navigate("/");
         console.log(userCredential.user);
       })
       .catch((error) => {
