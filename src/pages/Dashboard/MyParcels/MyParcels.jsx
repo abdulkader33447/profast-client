@@ -4,13 +4,14 @@ import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { format } from "date-fns";
+import { Link, useNavigate } from "react-router";
 
 const MyParcels = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-  
+  const navigate = useNavigate();
 
-  const { data: parcels=[],refetch } = useQuery({
+  const { data: parcels = [], refetch } = useQuery({
     queryKey: ["my-parcels", user.email],
     queryFn: async () => {
       const res = await axiosSecure.get(`/parcels?email=${user.email}`);
@@ -20,7 +21,7 @@ const MyParcels = () => {
   });
   console.log(parcels);
 
-   // Handle view
+  // Handle view
   const handleView = (parcel) => {
     Swal.fire({
       title: "📦 Parcel Details",
@@ -30,9 +31,15 @@ const MyParcels = () => {
           <p><strong>Type:</strong> ${parcel.type}</p>
           <p><strong>Title:</strong> ${parcel.title}</p>
           <p><strong>Weight:</strong> ${parcel.weight}kg</p>
-          <p><strong>Sender:</strong> ${parcel.senderName} (${parcel.senderContact})</p>
-          <p><strong>Receiver:</strong> ${parcel.receiverName} (${parcel.receiverContact})</p>
-          <p><strong>From:</strong> ${parcel.senderRegion} → ${parcel.receiverRegion}</p>
+          <p><strong>Sender:</strong> ${parcel.senderName} (${
+        parcel.senderContact
+      })</p>
+          <p><strong>Receiver:</strong> ${parcel.receiverName} (${
+        parcel.receiverContact
+      })</p>
+          <p><strong>From:</strong> ${parcel.senderRegion} → ${
+        parcel.receiverRegion
+      }</p>
           <p><strong>Cost:</strong> ৳${parcel.cost || "N/A"}</p>
           <p><strong>Status:</strong> ${parcel.delivery_status}</p>
           <p><strong>Payment:</strong> ${parcel.payment_status}</p>
@@ -44,21 +51,23 @@ const MyParcels = () => {
   };
 
   // Handle Pay
-  const handlePay = (parcel) => {
-    Swal.fire({
-      title: "Confirm Payment",
-      text: `Do you want to mark this parcel as paid? (৳${parcel.cost})`,
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonColor: "#16a34a",
-      cancelButtonColor: "#dc2626",
-      confirmButtonText: "Yes, Pay",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        //onPay(parcel._id); // calling external function
-        Swal.fire("Success", "Marked as paid", "success");
-      }
-    });
+  const handlePay = (parcelId) => {
+    navigate(`/dashboard/payment/${parcelId}`);
+
+    // Swal.fire({
+    //   title: "Confirm Payment",
+    //   text: `Do you want to mark this parcel as paid? (৳${parcel.cost})`,
+    //   icon: "question",
+    //   showCancelButton: true,
+    //   confirmButtonColor: "#16a34a",
+    //   cancelButtonColor: "#dc2626",
+    //   confirmButtonText: "Yes, Pay",
+    // }).then((result) => {
+    //   if (result.isConfirmed) {
+    //     //onPay(parcel._id); // calling external function
+    //     Swal.fire("Success", "Marked as paid", "success");
+    //   }
+    // });
   };
 
   // Handle Delete
@@ -71,18 +80,17 @@ const MyParcels = () => {
       confirmButtonColor: "#dc2626",
       cancelButtonColor: "#6b7280",
       confirmButtonText: "Yes, delete it!",
-    }).then(async(result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        try{
-          const res =await axiosSecure.delete(`/parcels/${parcelId}`)
-          if(res.data.success){
+        try {
+          const res = await axiosSecure.delete(`/parcels/${parcelId}`);
+          if (res.data.success) {
             Swal.fire("Deleted!", "Parcel has been deleted.", "success");
-            refetch() //ui update
+            refetch(); //ui update
           }
-        }catch(error){
-          Swal.fire("Error","Failed to delete parcel.","error")
+        } catch (error) {
+          Swal.fire("Error", "Failed to delete parcel.", "error");
         }
-        
       }
     });
   };
@@ -134,7 +142,8 @@ const MyParcels = () => {
 
                 {parcel.payment_status !== "paid" && (
                   <button
-                    onClick={() => handlePay(parcel)}
+                  // to="/dashboard/payment"
+                    onClick={() => handlePay(parcel._id)}
                     className="btn btn-xs btn-outline btn-success"
                   >
                     Pay
@@ -152,9 +161,7 @@ const MyParcels = () => {
           ))}
           {parcels.length === 0 && (
             <tr>
-              <td className="text-center py-5">
-                No parcels found.
-              </td>
+              <td className="text-center py-5">No parcels found.</td>
             </tr>
           )}
         </tbody>
