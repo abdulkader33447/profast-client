@@ -1,8 +1,8 @@
 import React from "react";
 import { NavLink, Outlet } from "react-router";
 import ProFastLogo from "../pages/Home/Home/shared/ProFastLogo/ProFastLogo";
-
-
+import { FaHome, FaBoxOpen, FaMoneyCheckAlt, FaUserEdit } from "react-icons/fa";
+import { MdTrackChanges } from "react-icons/md";
 
 const DashboardLayout = () => {
   return (
@@ -34,7 +34,7 @@ const DashboardLayout = () => {
           </div>
           <div className="mx-2 flex-1 px-2">Dashboard</div>
         </div>
-          <Outlet/>
+        <Outlet />
       </div>
       <div className="drawer-side">
         <label
@@ -44,12 +44,31 @@ const DashboardLayout = () => {
         ></label>
         <ul className="menu bg-base-200 text-base-content min-h-full w-60 p-4">
           {/* Sidebar content here */}
-          <ProFastLogo/>
+          <ProFastLogo />
           <li>
-            <a>Home</a>
+            <NavLink to="/dashboard/home">
+              <FaHome className="inline-block mr-2" /> Home
+            </NavLink>
           </li>
           <li>
-            <NavLink to='/dashboard/myParcels'>My Parcel</NavLink>
+            <NavLink to="/dashboard/myParcels">
+              <FaBoxOpen className="inline-block mr-2" /> My Parcel
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/dashboard/paymentHistory">
+              <FaMoneyCheckAlt className="inline-block mr-2" /> Payment History
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/dashboard/track">
+              <MdTrackChanges className="inline-block mr-2" /> Track a package
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/dashboard/profile">
+              <FaUserEdit className="inline-block mr-2" /> Update Profile
+            </NavLink>
           </li>
         </ul>
       </div>

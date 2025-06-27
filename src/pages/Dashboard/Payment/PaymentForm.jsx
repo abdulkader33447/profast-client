@@ -1,9 +1,10 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useAuth from "../../../hooks/useAuth";
+import Swal from "sweetalert2";
 
 const PaymentForm = () => {
   const [error, setError] = useState("");
@@ -12,6 +13,7 @@ const PaymentForm = () => {
   const { parcelId } = useParams();
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate();
 
   const { isPending, data: parcelInfo = {} } = useQuery({
     queryKey: ["parcel", parcelId],
@@ -76,18 +78,38 @@ const PaymentForm = () => {
       } else {
         setError("");
         if (result.paymentIntent.status === "succeeded") {
-          console.log(result);
+          const transactionId = result.paymentIntent.id;
           console.log("payment succeeded!");
 
           //step:4 mark parcel paid also create payment history
+          const paymentData = {
+            parcelId,
+            email: user.email,
+            amount,
+            transactionId: transactionId,
+            paymentMethod: result.paymentIntent.payment_method_types[0],
+            paymentTime: new Date(),
+          };
+          const paymentRes = await axiosSecure.post("/payments", paymentData);
+          if (paymentRes.data.insertedId) {
+            // ✅ Show success alert
+            Swal.fire({
+              icon: "success",
+              title: "Payment Successful!",
+              html: `Transaction ID: <strong>${transactionId}</strong>`,
+              confirmButtonColor: "#CAEB66",
+             
+            }).then(() => {
+              // 🔁 Redirect to MyParcels
+              navigate("/dashboard/myParcels");
+            });
+          }
         }
       }
 
       console.log("res from intent", res);
     }
   };
-
-  
 
   return (
     <div>
