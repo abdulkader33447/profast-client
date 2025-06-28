@@ -97,77 +97,88 @@ const MyParcels = () => {
 
   return (
     <div className="overflow-x-auto rounded-lg shadow">
-      <table className="table table-zebra w-full">
-        <thead className="bg-base-200">
-          <tr>
-            <th>#</th>
-            <th>Type</th>
-            <th>Created At</th>
-            <th>Title</th>
-            <th>Weight</th>
-            <th>Cost (৳)</th>
-            <th>Payment</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {parcels?.map((parcel, index) => (
-            <tr key={parcel._id}>
-              <th>{index + 1}</th>
-              <td className="capitalize">{parcel.type}</td>
-              <td>{format(new Date(parcel.creation_date), "PPPp")}</td>
-              <td>{parcel.title}</td>
-              <td>{parcel.weight}kg</td>
-              <td>৳{parcel.cost || "—"}</td>
-
-              <td>
-                <span
-                  className={`badge ${
-                    parcel.payment_status === "paid"
-                      ? "badge-success"
-                      : "badge-error"
-                  }`}
-                >
-                  {parcel.payment_status}
-                </span>
-              </td>
-
-              <td className="space-x-1">
-                <button
-                  onClick={() => handleView(parcel)}
-                  className="btn btn-xs btn-outline btn-info"
-                >
-                  View
-                </button>
-
-                {parcel.payment_status !== "paid" && (
-                  <button
-                  // to="/dashboard/payment"
-                    onClick={() => handlePay(parcel._id)}
-                    className="btn btn-xs btn-outline btn-success"
-                  >
-                    Pay
-                  </button>
-                )}
-
-                <button
-                  onClick={() => handleDelete(parcel._id)}
-                  className="btn btn-xs btn-outline btn-error"
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-          {parcels.length === 0 && (
+      {parcels.length === 0 ? (
+        <div className="text-center p-10">
+          <p className="text-center py-5 ">
+            Sorry{" "}
+            <span className="text-lg font-semibold"> {user.displayName} </span>
+            You have not added any parcels yet. <br />
+            Add parcels now
+          </p>{" "}
+          <Link className="btn bg-[#CAEB66] rounded-lg" to="/sendParcel">
+            Go to add parcel
+          </Link>
+        </div>
+      ) : (
+        <table className="table table-zebra w-full">
+          <thead className="bg-base-200">
             <tr>
-              <td className="text-center py-5">No parcels found.</td>
+              <th>#</th>
+              <th>Type</th>
+              <th>Created At</th>
+              <th>Title</th>
+              <th>Weight</th>
+              <th>Cost (৳)</th>
+              <th>Payment</th>
+              <th>Actions</th>
             </tr>
-          )}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {parcels?.map((parcel, index) => (
+              <tr key={parcel._id}>
+                <th>{index + 1}</th>
+                <td className="capitalize">{parcel.type}</td>
+                <td>{format(new Date(parcel.creation_date), "PPPp")}</td>
+                <td>{parcel.title}</td>
+                <td>{parcel.weight}kg</td>
+                <td>৳{parcel.cost || "—"}</td>
+
+                <td>
+                  <span
+                    className={`badge ${
+                      parcel.payment_status === "paid"
+                        ? "badge-success"
+                        : "badge-error"
+                    }`}
+                  >
+                    {parcel.payment_status}
+                  </span>
+                </td>
+
+                <td className="space-x-1">
+                  <button
+                    onClick={() => handleView(parcel)}
+                    className="btn btn-xs btn-outline btn-info"
+                  >
+                    View
+                  </button>
+
+                  {parcel.payment_status !== "paid" && (
+                    <button
+                      // to="/dashboard/payment"
+                      onClick={() => handlePay(parcel._id)}
+                      className="btn btn-xs btn-outline btn-success"
+                    >
+                      Pay
+                    </button>
+                  )}
+
+                  <button
+                    onClick={() => handleDelete(parcel._id)}
+                    className="btn btn-xs btn-outline btn-error"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 };
-
+// {parcels.length === 0 && (
+//
+//           )}
 export default MyParcels;

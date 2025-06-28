@@ -2,16 +2,19 @@ import React from "react";
 import useAuth from "../../../hooks/useAuth";
 import Swal from "sweetalert2";
 import { useLocation, useNavigate } from "react-router";
+import useAxios from "../../../hooks/useAxios";
 
 const SocialLogin = () => {
   const { signinWithGoogle } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
   const from = location.state?.from || "/";
+  const axiosInstance = useAxios();
 
   const handleGoogleSignIn = () => {
     signinWithGoogle()
-      .then((result) => {
+      .then(async (result) => {
+        const user = result.user;
         Swal.fire({
           position: "top-end",
           icon: "success",
@@ -20,7 +23,14 @@ const SocialLogin = () => {
           timer: 1500,
         });
         navigate(from);
-        console.log(result.user);
+        const userInfo = {
+          email: user.email,
+          role: "user", //default role
+          created_at: new Date().toISOString,
+          last_log_in: new Date().toISOString,
+        };
+        const res = await axiosInstance.post("/users", userInfo);
+        console.log("user update info from social log in", res.data);
       })
       .catch((error) => {
         console.error(error);

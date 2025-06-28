@@ -8,6 +8,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  updateProfile,
 } from "firebase/auth";
 
 const googleProvider = new GoogleAuthProvider();
@@ -29,6 +30,10 @@ const AuthProvider = ({ children }) => {
   const signinWithGoogle = () => {
     setLoading(true);
     return signInWithPopup(auth, googleProvider);
+  };
+
+  const updateUserProfile = (profileInfo) => {
+    return updateProfile(auth.currentUser, profileInfo);
   };
 
   const logOut = () => {
@@ -53,6 +58,7 @@ const AuthProvider = ({ children }) => {
     logOut,
     loading,
     signinWithGoogle,
+    updateUserProfile,
   };
   return <AuthContext value={userInfo}>{children}</AuthContext>;
 };

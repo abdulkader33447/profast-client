@@ -6,8 +6,9 @@ import { auth } from "../../../../../firebase/firebase.init";
 import Swal from "sweetalert2";
 
 const Navbar = () => {
-  const { user,logOut } = useAuth();
-  
+  const { user, logOut } = useAuth();
+  // console.log(user?.photoURL);
+
   const navItems = (
     <>
       <li>
@@ -32,19 +33,21 @@ const Navbar = () => {
     </>
   );
 
-  const handleLogOut = ()=>{
+  const handleLogOut = () => {
     logOut(auth)
-    .then(()=>{
-      Swal.fire({
+      .then(() => {
+        Swal.fire({
           position: "top-end",
           icon: "success",
           title: "sign out user",
           showConfirmButton: false,
           timer: 2500,
         });
-    })
-    .catch((error)=>{console.error(error);})
-  }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   return (
     <div className="navbar sm:max-w-7xl w-11/12 mx-auto bg-base-100 shadow-sm rounded-2xl sm:py-5 sm:px-8">
       <div className="navbar-start">
@@ -85,13 +88,30 @@ const Navbar = () => {
             Login
           </Link>
         ) : (
-          <button className="btn bg-[#CAEB66] rounded-lg" onClick={handleLogOut}>
-            Log Out
-          </button>
+          <>
+            <div className="dropdown dropdown-end">
+              <div>
+                <Link>
+                  <img
+                    src={user?.photoURL}
+                    alt="profile"
+                    className="rounded-full sm:size-12 size-10 hover:shadow-[0_0_20px_#CAEB66]"
+                  />
+                </Link>
+                <ul className="dropdown-content menu bg-base-100 rounded-box z-1 w-30 p-2 shadow-sm">
+                  <li>
+                    <NavLink className="btn bg-[#CAEB66] rounded-lg" onClick={handleLogOut}>
+                      Log Out
+                    </NavLink>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </>
         )}
       </div>
     </div>
   );
 };
-
+//
 export default Navbar;
