@@ -13,6 +13,7 @@ import About from "../pages/About/About";
 import Payment from "../pages/Dashboard/Payment/Payment";
 import PaymentHistory from "../pages/Dashboard/Payment/PaymentHistory/PaymentHistory";
 import TrackParcel from "../pages/Dashboard/TrackParcel/TrackParcel";
+import BeARider from "../pages/Dashboard/BeARider/BeARider";
 
 export const router = createBrowserRouter([
   {
@@ -35,6 +36,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <SendParcel />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/beARider",
+        element: (
+          <PrivateRoute>
+            <BeARider />
           </PrivateRoute>
         ),
       },
