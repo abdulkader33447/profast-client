@@ -1,5 +1,4 @@
 import axios from "axios";
-import React from "react";
 import useAuth from "./useAuth";
 
 const axiosSecure = axios.create({
