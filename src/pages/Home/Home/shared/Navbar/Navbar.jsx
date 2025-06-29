@@ -12,26 +12,56 @@ const Navbar = () => {
   const navItems = (
     <>
       <li>
-        <NavLink to="/">Home</NavLink>
+        <NavLink
+          to="/"
+          className="hover:bg-[#CAEB66] hover:shadow-[0_0_20px_#CAEB66]"
+        >
+          Home
+        </NavLink>
       </li>
       <li>
-        <NavLink to="/coverage">Coverage</NavLink>
+        <NavLink
+          to="/coverage"
+          className="hover:bg-[#CAEB66] hover:shadow-[0_0_20px_#CAEB66]"
+        >
+          Coverage
+        </NavLink>
       </li>
       <li>
-        <NavLink to="/sendParcel">Send Parcel</NavLink>
+        <NavLink
+          to="/sendParcel"
+          className="hover:bg-[#CAEB66] hover:shadow-[0_0_20px_#CAEB66]"
+        >
+          Send Parcel
+        </NavLink>
       </li>
       <li>
-        <NavLink to="/beARider">Be a Rider</NavLink>
+        <NavLink
+          to="/beARider"
+          className="hover:bg-[#CAEB66] hover:shadow-[0_0_20px_#CAEB66]"
+        >
+          Be a Rider
+        </NavLink>
       </li>
       {user && (
         <>
           <li>
-            <NavLink to="/dashboard">Dashboard</NavLink>
+            <NavLink
+              to="/dashboard"
+              className="hover:bg-[#CAEB66] hover:shadow-[0_0_20px_#CAEB66]"
+            >
+              Dashboard
+            </NavLink>
           </li>
         </>
       )}
       <li>
-        <NavLink to="/about">About Us</NavLink>
+        <NavLink
+          to="/about"
+          className="hover:bg-[#CAEB66] hover:shadow-[0_0_20px_#CAEB66]"
+        >
+          About Us
+        </NavLink>
       </li>
     </>
   );
@@ -87,7 +117,10 @@ const Navbar = () => {
       </div>
       <div className="navbar-end">
         {!user ? (
-          <Link className="btn bg-[#CAEB66] rounded-lg" to="/login">
+          <Link
+            className="btn bg-[#CAEB66] rounded-lg hover:shadow-[0_0_20px_#CAEB66]"
+            to="/login"
+          >
             Login
           </Link>
         ) : (
@@ -101,9 +134,12 @@ const Navbar = () => {
                     className="rounded-full sm:size-12 size-10 hover:shadow-[0_0_20px_#CAEB66]"
                   />
                 </Link>
-                <ul className="dropdown-content menu bg-base-100 rounded-box z-1 w-30 p-2 shadow-sm">
+                <ul className="dropdown-content menu bg-base-100 rounded-box z-1 w-30 p-2  shadow-[0_0_20px_#CAEB66]">
                   <li>
-                    <NavLink className="btn bg-[#CAEB66] rounded-lg" onClick={handleLogOut}>
+                    <NavLink
+                      className="btn bg-[#CAEB66] rounded-lg hover:shadow-[0_0_20px_#CAEB66]"
+                      onClick={handleLogOut}
+                    >
                       Log Out
                     </NavLink>
                   </li>

@@ -133,7 +133,7 @@ const TestimonialSection = () => {
         {testimonials.map((item) => (
           <div
             key={item.id}
-            className="bg-base-200 mx-2 p-6 rounded-xl  h-full flex flex-col justify-between"
+            className="bg-base-200 mx-2 p-6 rounded-xl shadow-[0_0_10px_#CAEB66] h-full flex flex-col justify-between"
           >
             <p className="text-sm text-gray-700 mb-4">
               <span className="text-5xl text-primary ">“</span>

@@ -32,7 +32,7 @@ const Promises = () => {
         {Promises.map((Promise) => (
           <div
             key={Promise.id}
-            className="flex sm:flex-row flex-col items-center bg-base-200 sm:p-10 p-5 rounded-xl shadow-md gap-6"
+            className="flex sm:flex-row flex-col items-center bg-base-200 sm:p-10 hover:shadow-[0_0_18px_#CAEB66] p-5 rounded-xl  gap-6"
           >
             {/* Illustration */}
             <div className="w-24 h-24 flex-shrink-0">

@@ -36,7 +36,7 @@ const HowItWorks = () => {
         {steps.map((step, index) => (
           <div
             key={index}
-            className="bg-base-100  hover:bg-[#caeb66] transition-colors duration-600 rounded-2xl p-6 text-start shadow-md"
+            className="bg-base-100  hover:bg-[#caeb66] transition-colors duration-600 shadow-[0_0_10px_#CAEB66] rounded-2xl p-6 text-start "
           >
             <div className="mb-4 flex justify-start">{step.icon}</div>
             <h3 className="text-xl text-[#03373d]  font-semibold mb-2">{step.title}</h3>

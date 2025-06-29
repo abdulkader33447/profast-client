@@ -38,7 +38,7 @@ const Faq = () => {
             registration process.
           </div>
         </div>
-        <button className="btn bg-[#CAEB66] rounded-lg">See More FAQ’s</button>
+        <button className="btn bg-[#CAEB66] hover:shadow-[0_0_20px_#CAEB66] hover:border-none rounded-lg">See More FAQ’s</button>
       </div>
     </div>
   );

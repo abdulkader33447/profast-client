@@ -53,39 +53,39 @@ const DashboardLayout = () => {
           {/* Sidebar content here */}
           <ProFastLogo />
           <li>
-            <NavLink to="/dashboard/home">
+            <NavLink to="/dashboard/home " className=" hover:bg-[#CAEB66] hover:shadow-[0_0_20px_#CAEB66]">
               <FaHome className="inline-block mr-2" /> Home
             </NavLink>
           </li>
           <li>
-            <NavLink to="/dashboard/myParcels">
+            <NavLink to="/dashboard/myParcels" className="hover:shadow-[0_0_18px_#CAEB66] hover:bg-[#CAEB66]">
               <FaBoxOpen className="inline-block mr-2" /> My Parcel
             </NavLink>
           </li>
           <li>
-            <NavLink to="/dashboard/paymentHistory">
+            <NavLink to="/dashboard/paymentHistory" className="hover:shadow-[0_0_18px_#CAEB66] hover:bg-[#CAEB66]">
               <FaMoneyCheckAlt className="inline-block mr-2" /> Payment History
             </NavLink>
           </li>
           <li>
-            <NavLink to="/dashboard/track">
+            <NavLink to="/dashboard/track" className="hover:shadow-[0_0_18px_#CAEB66] hover:bg-[#CAEB66]">
               <MdTrackChanges className="inline-block mr-2" /> Track a package
             </NavLink>
           </li>
           <li>
-            <NavLink to="/dashboard/profile">
+            <NavLink to="/dashboard/profile" className="hover:shadow-[0_0_18px_#CAEB66] hover:bg-[#CAEB66]">
               <FaUserEdit className="inline-block mr-2" /> Update Profile
             </NavLink>
           </li>
 
           {/* riders links */}
           <li>
-            <NavLink to="/dashboard/activeRider">
+            <NavLink to="/dashboard/activeRider" className="hover:shadow-[0_0_18px_#CAEB66] hover:bg-[#CAEB66]">
               <FaUserCheck className="inline-block mr-2" /> Active Rider
             </NavLink>
           </li>
           <li>
-            <NavLink to="/dashboard/pendingRider">
+            <NavLink to="/dashboard/pendingRider" className="hover:shadow-[0_0_18px_#CAEB66] hover:bg-[#CAEB66]">
               <FaUserClock className="inline-block mr-2" /> Pending Rider
             </NavLink>
           </li>
