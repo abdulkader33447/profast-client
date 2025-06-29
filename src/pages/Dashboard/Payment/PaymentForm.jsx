@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useAuth from "../../../hooks/useAuth";
 import Swal from "sweetalert2";
+import LoadingSpinner from "../../Home/Home/shared/LoadingSpinner/LoadingSpinner";
 
 const PaymentForm = () => {
   const [error, setError] = useState("");
@@ -23,7 +24,7 @@ const PaymentForm = () => {
     },
   });
   if (isPending) {
-    return <span className="loading loading-spinner loading-xl"></span>;
+    return <LoadingSpinner />;
   }
 
   console.log(parcelInfo);
@@ -98,7 +99,6 @@ const PaymentForm = () => {
               title: "Payment Successful!",
               html: `Transaction ID: <strong>${transactionId}</strong>`,
               confirmButtonColor: "#CAEB66",
-             
             }).then(() => {
               // 🔁 Redirect to MyParcels
               navigate("/dashboard/myParcels");

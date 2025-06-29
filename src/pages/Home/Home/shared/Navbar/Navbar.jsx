@@ -9,57 +9,44 @@ const Navbar = () => {
   const { user, logOut } = useAuth();
   // console.log(user?.photoURL);
 
+  const activeNavLinkClass = ({ isActive }) =>
+    isActive
+      ? "bg-[#CAEB66] shadow-[0_0_20px_#CAEB66] rounded-md "
+      : "hover:bg-[#CAEB66] hover:shadow-[0_0_20px_#CAEB66] rounded-md ";
+
   const navItems = (
     <>
       <li>
-        <NavLink
-          to="/"
-          className="hover:bg-[#CAEB66] hover:shadow-[0_0_20px_#CAEB66]"
-        >
+        <NavLink to="/" className={activeNavLinkClass}>
           Home
         </NavLink>
       </li>
       <li>
-        <NavLink
-          to="/coverage"
-          className="hover:bg-[#CAEB66] hover:shadow-[0_0_20px_#CAEB66]"
-        >
+        <NavLink to="/coverage" className={activeNavLinkClass}>
           Coverage
         </NavLink>
       </li>
       <li>
-        <NavLink
-          to="/sendParcel"
-          className="hover:bg-[#CAEB66] hover:shadow-[0_0_20px_#CAEB66]"
-        >
+        <NavLink to="/sendParcel" className={activeNavLinkClass}>
           Send Parcel
         </NavLink>
       </li>
       <li>
-        <NavLink
-          to="/beARider"
-          className="hover:bg-[#CAEB66] hover:shadow-[0_0_20px_#CAEB66]"
-        >
+        <NavLink to="/beARider" className={activeNavLinkClass}>
           Be a Rider
         </NavLink>
       </li>
       {user && (
         <>
           <li>
-            <NavLink
-              to="/dashboard"
-              className="hover:bg-[#CAEB66] hover:shadow-[0_0_20px_#CAEB66]"
-            >
+            <NavLink to="/dashboard" className={activeNavLinkClass}>
               Dashboard
             </NavLink>
           </li>
         </>
       )}
       <li>
-        <NavLink
-          to="/about"
-          className="hover:bg-[#CAEB66] hover:shadow-[0_0_20px_#CAEB66]"
-        >
+        <NavLink to="/about" className={activeNavLinkClass}>
           About Us
         </NavLink>
       </li>
@@ -85,7 +72,11 @@ const Navbar = () => {
     <div className="navbar sm:max-w-7xl w-11/12 mx-auto bg-base-100 shadow-sm rounded-2xl sm:py-5 sm:px-8">
       <div className="navbar-start">
         <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+          <div
+            tabIndex={0}
+            role="button"
+            className="btn hover:bg-[#CAEB66] hover:border-none hover:shadow-[0_0_20px_#CAEB66] btn-ghost rounded-lg lg:hidden mr-1"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"

@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import { format } from "date-fns";
 import { Link } from "react-router";
+import LoadingSpinner from "../../../Home/Home/shared/LoadingSpinner/LoadingSpinner";
 
 const PaymentHistory = () => {
   const { user } = useAuth();
@@ -21,9 +22,7 @@ const PaymentHistory = () => {
   });
 
   if (isPending) {
-    return (
-      <span className="loading loading-spinner loading-lg mx-auto my-10 block"></span>
-    );
+    return <LoadingSpinner />;
   }
 
   return (
@@ -67,7 +66,7 @@ const PaymentHistory = () => {
                 <td className="text-sm">{payment.transactionId}</td>
                 <td className="text-sm">{payment._id}</td>
                 <td className="text-sm">{user.email}</td>
-                <td>৳{payment.amount}</td>
+                <td>${payment.amount}</td>
                 <td className="capitalize">{payment.paymentMethod}</td>
                 <td>{format(new Date(payment.paymentTime), "PPPp")}</td>
               </tr>

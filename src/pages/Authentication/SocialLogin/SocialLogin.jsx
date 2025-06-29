@@ -26,8 +26,8 @@ const SocialLogin = () => {
         const userInfo = {
           email: user.email,
           role: "user", //default role
-          created_at: new Date().toISOString,
-          last_log_in: new Date().toISOString,
+          created_at: new Date().toLocaleString(),
+          last_log_in: new Date().toLocaleString(),
         };
         const res = await axiosInstance.post("/users", userInfo);
         console.log("user update info from social log in", res.data);

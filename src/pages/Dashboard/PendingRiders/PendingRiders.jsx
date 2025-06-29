@@ -5,6 +5,7 @@ import { IoCheckmarkSharp } from "react-icons/io5";
 import { MdOutlineCancel } from "react-icons/md";
 import Swal from "sweetalert2";
 import { useQuery } from "@tanstack/react-query";
+import LoadingSpinner from "../../Home/Home/shared/LoadingSpinner/LoadingSpinner";
 // adjust path as needed
 
 const PendingRiders = () => {
@@ -41,7 +42,7 @@ const PendingRiders = () => {
   });
 
   if (isPending) {
-    return <span className="loading loading-spinner loading-xl"></span>;
+    return <LoadingSpinner />;
   }
 
   // const approveRider = async (id) => {
@@ -57,7 +58,8 @@ const PendingRiders = () => {
   //   }
   // };
 
-  const approveRider = async (id) => {
+  const approveRider = async (id, email) => {
+    // console.log("approving rider with emil",email);
     const result = await Swal.fire({
       title: "Are you sure?",
       text: "Do you want to approve this rider?",
@@ -73,15 +75,16 @@ const PendingRiders = () => {
         setLoading(true);
         await axiosSecure.patch(`/riders/${id}/status`, {
           status: "approved",
-          approvedAt: new Date().toLocaleString("en-US", {
-            timeZone: "Asia/Dhaka",
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: true,
-          }),
+          email,
+          // approvedAt: new Date().toLocaleString("en-US", {
+          //   timeZone: "Asia/Dhaka",
+          //   year: "numeric",
+          //   month: "short",
+          //   day: "numeric",
+          //   hour: "2-digit",
+          //   minute: "2-digit",
+          //   hour12: true,
+          // }),
         });
         refetch();
         Swal.fire("Approved!", "The rider has been approved.", "success");
@@ -133,7 +136,8 @@ const PendingRiders = () => {
   //   }
   // };
 
-  const cancelRider = async (id) => {
+  const cancelRider = async (id, email) => {
+    // console.log("cancelling rider with email",email);
     const result = await Swal.fire({
       title: "Are you sure?",
       text: "Do you really want to cancel this rider application?",
@@ -150,6 +154,7 @@ const PendingRiders = () => {
 
         await axiosSecure.patch(`/riders/${id}/status`, {
           status: "cancelled",
+          email,
         });
         refetch();
         Swal.fire("Cancelled!", "The rider has been cancelled.", "success");
@@ -209,14 +214,14 @@ const PendingRiders = () => {
                     <FaRegEye />
                   </button>
                   <button
-                    onClick={() => approveRider(rider._id)}
+                    onClick={() => approveRider(rider._id, rider.email)}
                     disabled={loading}
                     className="cursor-pointer bg-green-500 text-white px-2 py-1 rounded disabled:opacity-50"
                   >
                     <IoCheckmarkSharp />
                   </button>
                   <button
-                    onClick={() => cancelRider(rider._id)}
+                    onClick={() => cancelRider(rider._id, rider.email)}
                     disabled={loading}
                     className="cursor-pointer bg-red-500 text-white px-2 py-1 rounded disabled:opacity-50"
                   >
@@ -269,14 +274,18 @@ const PendingRiders = () => {
             </div>
             <div className="mt-6 flex justify-end space-x-3">
               <button
-                onClick={() => approveRider(selectedRider._id)}
+                onClick={() =>
+                  approveRider(selectedRider._id, selectedRider.email)
+                }
                 disabled={loading}
                 className="bg-green-600 text-white px-4 py-2 rounded disabled:opacity-50"
               >
                 Approve
               </button>
               <button
-                onClick={() => cancelRider(selectedRider._id)}
+                onClick={() =>
+                  cancelRider(selectedRider._id, selectedRider.email)
+                }
                 disabled={loading}
                 className="bg-red-600 text-white px-4 py-2 rounded disabled:opacity-50"
               >

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import LoadingSpinner from "../../Home/Home/shared/LoadingSpinner/LoadingSpinner";
 
 const ActiveRiders = () => {
   const axiosSecure = useAxiosSecure();
@@ -54,7 +55,7 @@ const ActiveRiders = () => {
   };
 
   if (isLoading) {
-    return <span className="loading loading-spinner loading-lg"></span>;
+    return <LoadingSpinner/>;
   }
 
   return (
