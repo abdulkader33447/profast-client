@@ -9,6 +9,7 @@ import {
   FaUserCheck,
   FaUserClock,
   FaUserShield,
+  FaMotorcycle,
 } from "react-icons/fa";
 import { MdTrackChanges } from "react-icons/md";
 import useUserRole from "../hooks/useUserRole";
@@ -91,6 +92,11 @@ const DashboardLayout = () => {
           {/* riders links */}
           {!roleLoading && role === "admin" && (
             <>
+              <li>
+                <NavLink to="/dashboard/assignRider" className={navLinkClass}>
+                  <FaMotorcycle className="inline-block mr-2" /> Assign Rider
+                </NavLink>
+              </li>
               <li>
                 <NavLink to="/dashboard/activeRider" className={navLinkClass}>
                   <FaUserCheck className="inline-block mr-2" /> Active Rider

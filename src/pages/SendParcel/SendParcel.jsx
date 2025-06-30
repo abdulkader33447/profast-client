@@ -6,7 +6,6 @@ import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const generateTrackingId = () => {
-  
   const randomPart = Math.random().toString(36).substr(2, 5).toUpperCase();
   const datePart = Date.now().toString().slice(-5);
   return `TRK-${randomPart}${datePart}`;
@@ -206,9 +205,10 @@ const SendParcel = () => {
                 <input
                   type="number"
                   step="0.1"
-                  {...register("weight")}
+                  {...register("weight", { required: true })}
                   className="input input-bordered w-full"
                 />
+                {errors.weight && <p className="text-red-500 text-sm">Required</p>}
               </div>
             )}
           </div>
@@ -226,9 +226,8 @@ const SendParcel = () => {
                   type="text"
                   {...register("senderName", { required: true })}
                   className="input input-bordered w-full"
-                  // defaultValue={user.displayName}
-                  // readOnly
-                  // readOnly
+                  defaultValue={user.displayName}
+                  readOnly
                 />
               </div>
 
