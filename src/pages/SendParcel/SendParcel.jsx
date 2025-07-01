@@ -16,6 +16,7 @@ const SendParcel = () => {
   const [selectedSenderRegion, setSelectedSenderRegion] = useState("");
   const [selectedReceiverRegion, setSelectedReceiverRegion] = useState("");
   const [pendingParcelData, setPendingParcelData] = useState(null);
+  console.log(pendingParcelData);
   const {
     register,
     handleSubmit,
@@ -29,7 +30,8 @@ const SendParcel = () => {
   const axiosSecure = useAxiosSecure();
 
   const [deliveryCost, setDeliveryCost] = useState(null);
-  const [showConfirm, setShowConfirm] = useState(false);
+  console.log(deliveryCost);
+  // const [showConfirm, setShowConfirm] = useState(false);
 
   const parcelType = watch("type");
 
