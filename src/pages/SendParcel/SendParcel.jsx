@@ -4,6 +4,7 @@ import regions from "..//../../public/warehouses.json";
 import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { useNavigate } from "react-router";
 
 const generateTrackingId = () => {
   const randomPart = Math.random().toString(36).substr(2, 5).toUpperCase();
@@ -28,10 +29,12 @@ const SendParcel = () => {
   const { user } = useAuth();
   console.log(user, "in the add parcel");
   const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate();
 
   const [deliveryCost, setDeliveryCost] = useState(null);
   console.log(deliveryCost);
   // const [showConfirm, setShowConfirm] = useState(false);
+  const uniqueRegions = [...new Set(regions.map((item) => item.region))];
 
   const parcelType = watch("type");
 
@@ -144,7 +147,7 @@ const SendParcel = () => {
     const parcels = {
       ...data,
       trackingId: generateTrackingId(),
-      creation_date: new Date().toISOString(),
+      creation_date: new Date().toLocaleString(),
       created_by: user?.email || "anonymous",
       delivery_status: "not collected!",
       payment_status: "unpaid",
@@ -155,11 +158,12 @@ const SendParcel = () => {
     //saving parcel to db
     axiosSecure.post("/parcels", parcels).then((res) => {
       if (res.data.insertedId) {
-        //TODO: redirect to the payment page
-
         Swal.fire("Success!", "Parcel info saved successfully!", "success");
         reset();
         setDeliveryCost(null);
+
+        //TODO: redirect to the payment page
+        navigate("/dashboard/myParcels");
       }
       console.log(res.data);
     });
@@ -210,7 +214,9 @@ const SendParcel = () => {
                   {...register("weight", { required: true })}
                   className="input input-bordered w-full"
                 />
-                {errors.weight && <p className="text-red-500 text-sm">Required</p>}
+                {errors.weight && (
+                  <p className="text-red-500 text-sm">Required</p>
+                )}
               </div>
             )}
           </div>
@@ -252,9 +258,12 @@ const SendParcel = () => {
                   onChange={(e) => setSelectedSenderRegion(e.target.value)}
                   className="select select-bordered w-full"
                 >
+                  {" "}
                   <option value="">Select Region</option>
-                  {regions.map((region, index) => (
-                    <option key={index}>{region.district}</option>
+                  {uniqueRegions.map((region, index) => (
+                    <option key={index} value={region}>
+                      {region}
+                    </option>
                   ))}
                 </select>
                 {errors.senderRegion && (
@@ -271,9 +280,7 @@ const SendParcel = () => {
                 >
                   <option value="">Select Center</option>
                   {regions
-                    .filter(
-                      (region) => region.district === selectedSenderRegion
-                    )
+                    .filter((region) => region.region === selectedSenderRegion)
                     ?.map((item, idx) =>
                       item.covered_area.map((center, i) => (
                         <option key={`${idx}-${i}`} value={center}>
@@ -348,11 +355,15 @@ const SendParcel = () => {
                   onChange={(e) => setSelectedReceiverRegion(e.target.value)}
                   className="select select-bordered w-full"
                 >
+                  {" "}
                   <option value="">Select Region</option>
-                  {regions.map((region, index) => (
-                    <option key={index}>{region.district}</option>
+                  {uniqueRegions.map((region, index) => (
+                    <option key={index} value={region}>
+                      {region}
+                    </option>
                   ))}
                 </select>
+
                 {errors.senderRegion && (
                   <p className="text-red-500 text-sm">Required</p>
                 )}
@@ -368,7 +379,7 @@ const SendParcel = () => {
                   <option value="">Select Center</option>
                   {regions
                     .filter(
-                      (region) => region.district === selectedReceiverRegion
+                      (region) => region.region === selectedReceiverRegion
                     )
                     ?.map((item, idx) =>
                       item.covered_area.map((center, i) => (

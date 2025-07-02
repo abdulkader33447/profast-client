@@ -9,6 +9,7 @@ import LoadingSpinner from "../../Home/Home/shared/LoadingSpinner/LoadingSpinner
 
 const PaymentForm = () => {
   const [error, setError] = useState("");
+  const [processing, setProcessing] = useState(false);
   const stripe = useStripe();
   const elements = useElements();
   const { parcelId } = useParams();
@@ -28,18 +29,22 @@ const PaymentForm = () => {
   }
 
   console.log(parcelInfo);
-  const amount = parcelInfo.cost;
+  const amount = Number(parcelInfo?.cost || 0);
   const amountInCents = amount * 100;
   console.log(amountInCents);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setProcessing(true);
+
     if (!stripe || !elements) {
+      setProcessing(false);
       return;
     }
 
     const card = elements.getElement(CardElement);
     if (!card) {
+      setProcessing(false);
       return;
     }
 
@@ -52,7 +57,8 @@ const PaymentForm = () => {
 
     if (error) {
       setError(error.message);
-      console.log("[error]", error);
+      console.error("Payment error:", error.message);
+      setProcessing(false);
     } else {
       console.log("[payment method]", paymentMethod);
 
@@ -76,6 +82,14 @@ const PaymentForm = () => {
 
       if (result.error) {
         setError(result.error.message);
+        console.error("Confirm Payment Error:", result.error.message); // log
+        Swal.fire({
+          icon: "error",
+          title: "Payment Failed!",
+          text: result.error.message,
+          confirmButtonColor: "#d33",
+        });
+        setProcessing(false);
       } else {
         setError("");
         if (result.paymentIntent.status === "succeeded") {
@@ -89,7 +103,7 @@ const PaymentForm = () => {
             amount,
             transactionId: transactionId,
             paymentMethod: result.paymentIntent.payment_method_types[0],
-            paymentTime: new Date(),
+            paymentTime: new Date().toLocaleString(),
           };
           const paymentRes = await axiosSecure.post("/payments", paymentData);
           if (paymentRes.data.insertedId) {
@@ -105,6 +119,7 @@ const PaymentForm = () => {
             });
           }
         }
+        setProcessing(false);
       }
 
       console.log("res from intent", res);
@@ -123,9 +138,9 @@ const PaymentForm = () => {
         <button
           type="submit"
           className="btn bg-[#CAEB66] rounded-lg w-full"
-          disabled={!stripe}
+          disabled={!stripe || processing}
         >
-          Pay ${amount}
+          {processing ? "Processing..." : `Pay $${amount}`}
         </button>
         {error && <p className="text-red-400">{error}</p>}
       </form>

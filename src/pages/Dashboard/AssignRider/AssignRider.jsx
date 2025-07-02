@@ -51,10 +51,12 @@ const AssignRider = () => {
     loadRiders();
   }, [selectedParcel, axiosSecure]);
 
-  const handleAssignRiderToParcel = async (riderId) => {
+  const handleAssignRiderToParcel = async (riderId, riderName, riderEmail) => {
     try {
       await axiosSecure.patch(`/parcels/${selectedParcel._id}/assign-rider`, {
         riderId,
+        riderName,
+        riderEmail,
       });
 
       Swal.fire({
@@ -112,7 +114,13 @@ const AssignRider = () => {
                       <p className="text-sm text-gray-500">{rider.email}</p>
                     </div>
                     <button
-                      onClick={() => handleAssignRiderToParcel(rider._id)}
+                      onClick={() =>
+                        handleAssignRiderToParcel(
+                          rider._id,
+                          rider.name,
+                          rider.email
+                        )
+                      }
                       className="btn btn-sm btn-success"
                     >
                       Assign

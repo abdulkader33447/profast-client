@@ -10,6 +10,9 @@ import {
   FaUserClock,
   FaUserShield,
   FaMotorcycle,
+  FaTasks,
+  FaCheckCircle,
+  FaMoneyBillWave,
 } from "react-icons/fa";
 import { MdTrackChanges } from "react-icons/md";
 import useUserRole from "../hooks/useUserRole";
@@ -89,7 +92,35 @@ const DashboardLayout = () => {
             </NavLink>
           </li>
 
-          {/* riders links */}
+          {/* rider links */}
+          {!roleLoading && role === "rider" && (
+            <>
+              <li>
+                <NavLink
+                  to="/dashboard/pendingDeliveries"
+                  className={navLinkClass}
+                >
+                  <FaTasks className="inline-block mr-2" /> Pending Deliveries
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/dashboard/completedDeliveries"
+                  className={navLinkClass}
+                >
+                  <FaCheckCircle className="inline-block mr-2" /> Completed
+                  Deliveries
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/myEarnings" className={navLinkClass}>
+                  <FaMoneyBillWave className="inline-block mr-2" /> My Earnings
+                </NavLink>
+              </li>
+            </>
+          )}
+
+          {/* admin links */}
           {!roleLoading && role === "admin" && (
             <>
               <li>

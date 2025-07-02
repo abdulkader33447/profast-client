@@ -95,7 +95,7 @@ const MyParcels = () => {
   };
 
   return (
-    <div className="overflow-x-auto rounded-lg shadow">
+    <div className="overflow-x-auto rounded-lg h-screen shadow">
       {parcels.length === 0 ? (
         <div className="text-center p-10">
           <p className="text-center py-5 ">
