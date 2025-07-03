@@ -3,12 +3,15 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "../../Home/Home/shared/LoadingSpinner/LoadingSpinner";
 import Swal from "sweetalert2";
+import useTrackingLogger from "../../../hooks/useTrackingLogger";
 
 const AssignRider = () => {
   const axiosSecure = useAxiosSecure();
   const [selectedParcel, setSelectedParcel] = useState(null);
   const [riders, setRiders] = useState([]);
   const [loadingRiders, setLoadingRiders] = useState(false);
+  const { logTracking } = useTrackingLogger();
+ 
 
   // Now using server-side filtering for better performance
   const {
@@ -57,6 +60,14 @@ const AssignRider = () => {
         riderId,
         riderName,
         riderEmail,
+      });
+      //tracking function
+      logTracking({
+        tracking_id: selectedParcel?.trackingId,
+        status: "rider_assigned",
+        details: `Assigned to: ${riderName}`,
+        updated_by: riderEmail,
+        // location: `${selectedParcel.receiverDistrict} - ${selectedParcel.receiverCenter}`,
       });
 
       Swal.fire({

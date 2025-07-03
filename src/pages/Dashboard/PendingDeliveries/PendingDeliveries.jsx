@@ -4,10 +4,12 @@ import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
 import Swal from "sweetalert2";
 import LoadingSpinner from "../../Home/Home/shared/LoadingSpinner/LoadingSpinner";
+import useTrackingLogger from "../../../hooks/useTrackingLogger";
 
 const PendingDeliveries = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
+  const { logTracking } = useTrackingLogger();
 
   const {
     data: parcels = [],
@@ -71,7 +73,20 @@ const PendingDeliveries = () => {
         delivery_status: newStatus,
       });
 
-      // Step 3: Add earnings if delivered
+      // Step 3: Log tracking
+      //tracking log
+      await logTracking({
+        tracking_id: parcel.trackingId,
+        status: newStatus, // in-transit / delivered
+        updated_by: user.email,
+        details:
+          newStatus === "in-transit"
+            ? `Parcel picked by: ${user.displayName}`
+            : `Parcel delivered by: ${user.displayName}`,
+        // location: `${parcel.receiverDistrict} - ${parcel.receiverCenter}`,
+      });
+
+      // Step 4: Add earnings if delivered
       if (newStatus === "delivered") {
         await axiosSecure.post("/rider/earnings/add", {
           parcelId: parcel._id,

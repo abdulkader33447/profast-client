@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useNavigate } from "react-router";
+import useTrackingLogger from "../../hooks/useTrackingLogger";
 
 const generateTrackingId = () => {
   const randomPart = Math.random().toString(36).substr(2, 5).toUpperCase();
@@ -30,6 +31,7 @@ const SendParcel = () => {
   console.log(user, "in the add parcel");
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
+  const { logTracking } = useTrackingLogger();
 
   const [deliveryCost, setDeliveryCost] = useState(null);
   console.log(deliveryCost);
@@ -143,30 +145,41 @@ const SendParcel = () => {
     });
   };
 
-  const handleConfirm = (data, cost) => {
+  const handleConfirm = async (data, cost) => {
+    const trackingId = generateTrackingId();
     const parcels = {
       ...data,
-      trackingId: generateTrackingId(),
-      creation_date: new Date().toLocaleString(),
+      trackingId,
+      creation_date: new Date().toISOString(),
       created_by: user?.email || "anonymous",
       delivery_status: "not collected!",
       payment_status: "unpaid",
-      cost: cost,
+      cost,
     };
 
-    // console.log("Saving parcel to DB:", parcels)
-    //saving parcel to db
-    axiosSecure.post("/parcels", parcels).then((res) => {
+    try {
+      const res = await axiosSecure.post("/parcels", parcels);
+
       if (res.data.insertedId) {
-        Swal.fire("Success!", "Parcel info saved successfully!", "success");
+        // ✅ Tracking log
+
+        Swal.fire(" Success!", "Parcel info saved successfully!", "success");
+
         reset();
         setDeliveryCost(null);
-
-        //TODO: redirect to the payment page
+        await logTracking({
+          tracking_id: trackingId,
+          status: "submitted",
+          details: `created by: ${user?.displayName}`,
+         // location: `${data.senderRegion} - ${data.senderCenter}`,
+          updated_by: user?.email,
+        });
         navigate("/dashboard/myParcels");
       }
-      console.log(res.data);
-    });
+    } catch (error) {
+      console.error("❌ Failed to save parcel:", error);
+      Swal.fire("Error", "Something went wrong. Please try again.", "error");
+    }
   };
 
   return (
@@ -364,7 +377,7 @@ const SendParcel = () => {
                   ))}
                 </select>
 
-                {errors.senderRegion && (
+                {errors.receiverRegion && (
                   <p className="text-red-500 text-sm">Required</p>
                 )}
               </div>
@@ -389,7 +402,7 @@ const SendParcel = () => {
                       ))
                     )}
                 </select>
-                {errors.senderCenter && (
+                {errors.receiverCenter && (
                   <p className="text-red-500 text-sm">Required</p>
                 )}
               </div>
@@ -429,7 +442,7 @@ const SendParcel = () => {
         <div className="text-right">
           <button
             type="submit"
-            onSubmit={handleConfirm}
+            // onSubmit={handleConfirm}
             className="btn bg-[#CAEB66] rounded-lg"
           >
             Submit Parcel

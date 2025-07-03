@@ -6,6 +6,7 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useAuth from "../../../hooks/useAuth";
 import Swal from "sweetalert2";
 import LoadingSpinner from "../../Home/Home/shared/LoadingSpinner/LoadingSpinner";
+import useTrackingLogger from "../../../hooks/useTrackingLogger";
 
 const PaymentForm = () => {
   const [error, setError] = useState("");
@@ -15,6 +16,7 @@ const PaymentForm = () => {
   const { parcelId } = useParams();
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
+  const { logTracking } = useTrackingLogger();
   const navigate = useNavigate();
 
   const { isPending, data: parcelInfo = {} } = useQuery({
@@ -113,7 +115,15 @@ const PaymentForm = () => {
               title: "Payment Successful!",
               html: `Transaction ID: <strong>${transactionId}</strong>`,
               confirmButtonColor: "#CAEB66",
-            }).then(() => {
+            }).then(async () => {
+              //tracking parcel
+              await logTracking({
+                tracking_id: parcelInfo?.trackingId,
+                status: "payment_done",
+                details: `paid by: ${user?.displayName}`,
+                // location: `${data.senderRegion} - ${data.senderCenter}`,
+                updated_by: user?.email,
+              });
               // 🔁 Redirect to MyParcels
               navigate("/dashboard/myParcels");
             });
