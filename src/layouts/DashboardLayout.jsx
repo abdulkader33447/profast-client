@@ -1,4 +1,3 @@
-import React from "react";
 import { NavLink, Outlet } from "react-router";
 import ProFastLogo from "../pages/Home/Home/shared/ProFastLogo/ProFastLogo";
 import {
@@ -67,7 +66,7 @@ const DashboardLayout = () => {
           {/* Sidebar content here */}
           <ProFastLogo />
           <li>
-            <NavLink to="/dashboard/home " className={navLinkClass}>
+            <NavLink to="/dashboard" className="hover:bg-[#CAEB66] hover:shadow-[0_0_20px_#CAEB66]">
               <FaHome className="inline-block mr-2" /> Home
             </NavLink>
           </li>
