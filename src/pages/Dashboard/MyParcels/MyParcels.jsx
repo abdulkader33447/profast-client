@@ -14,11 +14,11 @@ const MyParcels = () => {
     queryKey: ["my-parcels", user.email],
     queryFn: async () => {
       const res = await axiosSecure.get(`/parcels?email=${user.email}`);
-      console.log("user.email:", user.email);
+      // console.log("user.email:", user.email);
       return res.data;
     },
   });
-  console.log(parcels);
+  // console.log(parcels);
 
   // Handle view
   const handleView = (parcel) => {
@@ -88,7 +88,7 @@ const MyParcels = () => {
             refetch(); //ui update
           }
         } catch (error) {
-          Swal.fire("Error", "Failed to delete parcel.", "error");
+          Swal.fire("Error", "Failed to delete parcel.", "error",error);
         }
       }
     });

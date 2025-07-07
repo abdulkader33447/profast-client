@@ -51,7 +51,7 @@ const Login = () => {
   const onSubmit = async (data) => {
     try {
       const result = await signIn(data.email, data.password);
-      console.log(result.user);
+      // console.log(result.user);
 
       Swal.fire({
         position: "top-end",

@@ -93,7 +93,7 @@ const Register = () => {
         // last_log_in: new Date().toISOString(),
       };
       const userRes = await axiosInstance.post("/users", userInfo);
-      console.log(userRes.data);
+      // console.log(userRes.data);
 
       // Update Firebase profile
       const userProfile = {
@@ -103,7 +103,7 @@ const Register = () => {
       await updateUserProfile(userProfile);
 
       console.log("profile name, pic updated");
-      console.log(userCredential.user);
+      // console.log(userCredential.user);
       navigate(from);
     } catch (error) {
       console.error("Registration Error:", error);

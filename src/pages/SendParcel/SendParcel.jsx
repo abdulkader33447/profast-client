@@ -28,7 +28,7 @@ const SendParcel = () => {
   } = useForm();
 
   const { user } = useAuth();
-  console.log(user, "in the add parcel");
+  // console.log(user, "in the add parcel");
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
   const { logTracking } = useTrackingLogger();

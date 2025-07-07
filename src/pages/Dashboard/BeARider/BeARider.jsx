@@ -45,7 +45,7 @@ const BeARider = () => {
         hour12: true,
       }),
     };
-    console.log("form submitted", riderData);
+    // console.log("form submitted", riderData);
     axiosSecure
       .post("/riders", riderData)
       .then((res) => {

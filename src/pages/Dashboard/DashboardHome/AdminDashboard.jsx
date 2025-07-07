@@ -51,7 +51,7 @@ const AdminDashboard = () => {
       return res.data; // expected format: [{ status: 'delivered', count: 10 }, ...]
     },
   });
-  console.log(statusCounts);
+  // console.log(statusCounts);
 
   if (isLoading) return <LoadingSpinner />;
 

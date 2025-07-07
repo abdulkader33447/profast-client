@@ -30,10 +30,10 @@ const PaymentForm = () => {
     return <LoadingSpinner />;
   }
 
-  console.log(parcelInfo);
+  // console.log(parcelInfo);
   const amount = Number(parcelInfo?.cost || 0);
   const amountInCents = amount * 100;
-  console.log(amountInCents);
+  // console.log(amountInCents);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -132,7 +132,7 @@ const PaymentForm = () => {
         setProcessing(false);
       }
 
-      console.log("res from intent", res);
+      // console.log("res from intent", res);
     }
   };
 
