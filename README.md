@@ -1,12 +1,68 @@
-# React + Vite
+# 📦 ProFast - Smart Parcel Delivery Solution
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+ProFast is a full-stack parcel delivery web application designed to offer efficient, real-time, and reliable delivery management. Built with modern web technologies, ProFast simplifies the process of sending, tracking, and managing parcels — for admins, riders, and customers alike.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Live Site
 
-## Expanding the ESLint configuration
+🌐 [Visit ProFast Live](https://pro-fast-c5244.web.app)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## ✨ Core Features
+
+### 🔐 Authentication & Authorization
+- Firebase Authentication (Email/Password)
+- JWT secured API access
+- Role-based access (Admin, Rider, User)
+
+### 📦 Parcel Management
+- Send parcels via an intuitive form
+- Real-time parcel status updates: `pending`, `assigned`, `in-transit`, `delivered`
+- Delivery cost calculation based on region and center
+- Assign Rider modal based on parcel location
+
+### 🧭 Tracking System
+- Track parcels by unique ID
+- Parcel tracking logs stored in database
+- User-friendly tracking page with real-time status
+
+### 🛵 Rider Dashboard
+- Rider parcel list (assigned, in-transit)
+- Mark parcel as picked or delivered
+- Weekly/monthly earnings summary
+- Cashout feature for riders
+
+### 🧑‍💼 Admin Dashboard
+- Manage users and riders
+- Approve/Cancel pending rider requests
+- View all parcels and assign riders
+- Monitor earnings and cashouts
+
+### 💳 Payments
+- Stripe integration for secure online payments
+- Payment intent creation and tracking
+- Payment history for users and admins
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+- React.js
+- React Router
+- Tailwind CSS + DaisyUI
+- Axios + React Query
+- Firebase Auth
+
+### Backend
+- Node.js + Express.js
+- MongoDB (with Mongoose)
+- Firebase Admin SDK (JWT verification)
+- Stripe API for payments
+
+---
+
+## 📁 Folder Structure Highlights
+
